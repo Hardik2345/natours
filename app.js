@@ -8,7 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-const cors = require('cors');
+// const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
 //implement CORS(Cross origin resourse sharing)
-app.use(cors());
+// app.use(cors());
 //Access-Control-Allow-Origin
 //api.natours.com, front-end natours.com
 // app.use(
@@ -37,7 +37,7 @@ app.use(cors());
 //   }),
 // );
 
-app.options('*', cors());
+// app.options('*', cors());
 // app.options('/api/tours/:id', cors());
 
 // Serving static files
