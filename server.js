@@ -23,6 +23,7 @@ console.log('Enviroment:', process.env.NODE_ENV);
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false,
   })
@@ -30,7 +31,7 @@ mongoose
     console.log('DB connection succesful!');
   });
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log('App running on port 3000....');
 });
