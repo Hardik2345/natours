@@ -60,6 +60,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckout = async (session) => {
+  const session = await stripe.checkout.sessions.retrieve('cs_test_123', {
+    expand: ['line_items'],
+  });
   console.log('Session object:', session);
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
