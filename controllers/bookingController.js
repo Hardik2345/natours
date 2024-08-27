@@ -60,11 +60,23 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckout = async (session) => {
-  console.log('Session object:', session);
-  const tour = session.client_reference_id;
-  const user = (await User.findOne({ email: session.customer_email })).id;
+  // Retrieve the full session with line items
+  const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+    session.id,
+    {
+      expand: ['line_items'],
+    },
+  );
 
-  const lineItem = session.line_items && session.line_items[0];
+  console.log('Session object with line items:', sessionWithLineItems);
+
+  const tour = sessionWithLineItems.client_reference_id;
+  const user = (
+    await User.findOne({ email: sessionWithLineItems.customer_email })
+  ).id;
+
+  const lineItem =
+    sessionWithLineItems.line_items && sessionWithLineItems.line_items.data[0];
   if (!lineItem) {
     throw new Error('No line items found in the session');
   }
