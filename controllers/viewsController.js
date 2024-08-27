@@ -14,6 +14,15 @@ const csp = {
     "style-src 'self' https://cdnjs.cloudflare.com https://api.mapbox.com https://fonts.googleapis.com; script-src 'self' https://cdnjs.cloudflare.com https://js.stripe.com; connect-src 'self' ws://127.0.0.1:*; frame-src 'self' https://js.stripe.com;",
 };
 
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking') {
+    res.locals.alert =
+      "Your booking was successfull! Please check your email for confirmation. If your booking doesn't show up here immediatly,please come back later";
+  }
+  next();
+};
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   //1) Get all the tour data from our collections
   const tours = await Tour.find();
